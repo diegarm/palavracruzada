@@ -1,6 +1,6 @@
 # palavracruzada
 
-Inserir a palavra cruzada
+Inserir a matriz da palavra cruzada
 Exemplo:
 1 u i a U k r u 2
 2 c n w n z n t 1
