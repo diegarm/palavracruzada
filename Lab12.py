@@ -41,22 +41,18 @@ def horizontal(matriz, palavra):
     for m in range(len(matriz)):       
         linha = list(matriz[m])
         match = 0
-        linhaNew =[]
         
         for l in range(len(linha)):
   
             if linha[l].lower() == caracterCoringa or linha[l].lower() == palavra[match].lower():
-                linhaNew.append(linha[l].upper())
                 match=match+1
-            else:
-                linhaNew.append(linha[l].lower())
-
 
             if match == tamanhoPalavra:
                 match = 0
                 ocorrencias = ocorrencias + 1
-                matriz[m] = linhaNew
+                return True
 
+    return False 
 
 
 def vertical(matriz, palavra):
@@ -73,12 +69,14 @@ def vertical(matriz, palavra):
         for lin in range(len(matriz)):
          
             if matriz[lin][col].lower() == caracterCoringa or matriz[lin][col].lower() == palavra[match].lower():
-                matriz[lin][col] = matriz[lin][col].upper()
                 match=match+1
 
             if match == tamanhoPalavra:
                 match = 0
                 ocorrencias = ocorrencias+1
+                return True
+
+    return False 
 
 
 def diagonal1(matriz, palavra):
@@ -102,7 +100,6 @@ def diagonal1(matriz, palavra):
                     continue
         
                 if matriz[lin][colTemp].lower() == caracterCoringa or matriz[lin][colTemp].lower() == palavra[match].lower():
-                    matriz[lin][colTemp] = matriz[lin][colTemp].upper()
                     match=match+1
 
                 if match == tamanhoPalavra:
@@ -135,7 +132,6 @@ def diagonal2(matriz, palavra):
                     continue
         
                 if matriz[lin][colTemp].lower() == caracterCoringa or matriz[lin][colTemp].lower() == palavra[match].lower():
-                    matriz[lin][colTemp] = matriz[lin][colTemp].upper()
                     match=match+1
 
                 if match == tamanhoPalavra:
