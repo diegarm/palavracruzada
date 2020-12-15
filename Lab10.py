@@ -1,5 +1,8 @@
 matriz_minha = []
 verificador = True
+caracterCoringa = '*'
+ocorrencias = 0
+
 N = 0
 maiusculas = []
 while verificador:
@@ -17,61 +20,340 @@ for linha in matriz_minha:
 matriz_lista = []
 lista_up = []
 matriz_grande = []
+palavra_letras = []
 n = 0
 
 for n in range(N):
     n = 1 #N é número de palavras a buscar
     palavra_busca = str(input())
-    palavra_letras = list(palavra_busca)
+    palavra_letras.append(list(palavra_busca))
 
 lista_coluna = []
 grande = []
-#print(matriz_minha)
-#print(palavra_letras)
-#função que busca a palavra na horizontal
 
-def horizontal(matriz, linha, coluna, palavra):
-      for i in range(len(matriz)):       
-          linha = list(matriz[i])
-          print(linha) 
-          posição = i
-          print(posição)
-          for j in range(len(linha)):
-               coluna = linha[j]
-               print(coluna)
-               posição_2 = j
-               print(posição_2)
-               #continue
-               for x in range(len(palavra)):
-                   #print((max(range(len(linha)))))
-       #x é a posição que a letra ocupa na lista
-                   i1 = posição
-                   j1 = posição_2 + x
-                   print(i)
-                   print(j)
-                   print(x)
-                   if j1 < max(range(len(linha))) or j1 == max(range(len(linha))):
-                       if matriz[i1][j1] == palavra[x] or matriz[i1][j1] == "*":
-                           matriz[i1][j1] = matriz[i1][j1].upper()
-                           grande.append(matriz[i1][j1])
-                           continue
-                           #if len(grande) == len(palavra_letras):
-                                 #continue
-                                       
-          #continue
-      return True 
+def horizontal(matriz, palavra):
+
+    tamanhoPalavra = len(palavra)
+    match = 0
+    posicaoPalavra = 0
+    global ocorrencias
+
+    for m in range(len(matriz)):       
+        linha = list(matriz[m])
+        match = 0
+        coringa = 0
+        linhaNew =[]
+        
+        for l in range(len(linha)):
+  
+            if linha[l].lower() == caracterCoringa:
+                coringa = coringa + 1
+
+            if linha[l].lower() == palavra[match].lower():
+                linhaNew.append(linha[l].upper())
+                match=match+1
+            else:
+                linhaNew.append(linha[l].lower())
+
+
+            if (coringa+match) == tamanhoPalavra:
+                match = 0
+                ocorrencias = ocorrencias + 1
+                matriz[m] = linhaNew
+
+            if match == 0 and coringa > 0:
+                match = match+1
+
+
+
+def vertical(matriz, palavra):
+    
+    tamanhoPalavra = len(palavra)
+    tamanhoMatriz = len(matriz[0])
+    posAtualizar = []
+    posAtualizarInv = []
+    match = 0
+    matchinv = 0
+    coringa=0
+    global ocorrencias
+
+    for col in range(tamanhoMatriz):       
+        match = 0
+        
+        for lin in range(len(matriz)):
+         
+            if linha[lin].lower() == caracterCoringa:
+                coringa = coringa + 1
+                if match == 0:
+                    match = match+1
+            else:
+                if matriz[lin][col].lower() == palavra[match].lower():
+                    posAtualizar.append([lin,col])
+                    match=match+1
+                else:
+                    posAtualizar.clear()
+                    match = 0
+                
+                if matriz[lin][col].lower() == palavra[tamanhoPalavra-matchinv-1].lower():
+                    posAtualizarInv.append([lin,col])
+                    matchinv = matchinv+1
+                else:
+                    posAtualizarInv.clear()
+                    matchinv = 0
+
+            if (match+coringa) == tamanhoPalavra:
+                match = 0
+                ocorrencias = ocorrencias+1
+                upperMatriz(posAtualizar)
+
+            if (matchinv+coringa) == tamanhoPalavra:
+                matchinv = 0
+                ocorrencias = ocorrencias+1
+                upperMatriz(posAtualizarInv)
+
+
+def diagonal1(matriz, palavra):
+    
+    tamanhoPalavra = len(palavra)
+    tamColunas = len(matriz[0])
+    tamLinhas = len(matriz)
+    posAtualizar = []
+    posAtualizarInv = []
+    match = 0
+    matchinv = 0
+    global ocorrencias
+
+    for linha in range(tamLinhas,-1,-1):
+        linhaTemp=linha
+        matchinv = 0
+        match = 0
+
+        for coluna in range((tamLinhas-linha)*2):
+            
+            if linhaTemp < tamLinhas and coluna < tamColunas:
+
+                if matriz[linhaTemp][coluna].lower() == ' ':
+                    continue
+
+                if matriz[linhaTemp][coluna].lower() == caracterCoringa: 
+                    match=match+1
+                    matchinv = matchinv+1
+                else:
+                    if matriz[linhaTemp][coluna].lower() == palavra[match].lower():
+                        posAtualizar.append([linhaTemp,coluna])
+                        match=match+1
+                    else:
+                        posAtualizar.clear()
+                        match = 0
+                    
+                    if matriz[linhaTemp][coluna].lower() == palavra[tamanhoPalavra-matchinv-1].lower():
+                        posAtualizarInv.append([linhaTemp,coluna])
+                        matchinv = matchinv+1
+                    else:
+                        posAtualizarInv.clear()
+                        matchinv = 0
+
+                if match == tamanhoPalavra:
+                    match = 0
+                    matchinv = 0
+                    ocorrencias = ocorrencias+1
+                    upperMatriz(posAtualizar)
+
+                if matchinv == tamanhoPalavra:
+                    matchinv = 0
+                    match = 0
+                    ocorrencias = ocorrencias+1
+                    upperMatriz(posAtualizarInv)
+
+
+                if matriz[linhaTemp][coluna] != ' ' and linhaTemp+1 < tamLinhas :
+                    linhaTemp = linhaTemp+1
+            
+
+    
+    #######
+
+
+    for coluna in range(2,tamColunas,2):
+        
+        colunaTemp = coluna
+        matchinv = 0
+        match = 0
+
+        for linha in range(tamLinhas):
+            
+            if linha < tamLinhas and colunaTemp < tamColunas:
+                if(tamColunas > colunaTemp):
+                    if matriz[linha][colunaTemp] == ' ':
+                        colunaTemp = colunaTemp+1
+
+                    if matriz[linha][colunaTemp].lower() == caracterCoringa: 
+                        match=match+1
+                        matchinv = matchinv+1
+                    else:
+                        if matriz[linha][colunaTemp].lower() == palavra[match].lower():
+                            posAtualizar.append([linha,colunaTemp])
+                            match=match+1
+                        else:
+                            posAtualizar.clear()
+                            match = 0
+                        
+                        if matriz[linha][colunaTemp].lower() == palavra[tamanhoPalavra-matchinv-1].lower():
+                            posAtualizarInv.append([linha,colunaTemp])
+                            matchinv = matchinv+1
+                        else:
+                            posAtualizarInv.clear()
+                            matchinv = 0
+
+                    if match == tamanhoPalavra:
+                        match = 0
+                        matchinv = 0
+                        ocorrencias = ocorrencias+1
+                        upperMatriz(posAtualizar)
+
+                    if matchinv == tamanhoPalavra:
+                        matchinv = 0
+                        match = 0
+                        ocorrencias = ocorrencias+1
+                        upperMatriz(posAtualizarInv)
+                    
+                    colunaTemp = colunaTemp+1
+                        
+                    
+
+                 
+
+def diagonal2(matriz, palavra):
+    
+    tamanhoPalavra = len(palavra)
+    tamColunas = len(matriz[0])
+    tamLinhas = len(matriz)
+    posAtualizar = []
+    posAtualizarInv = []
+    match = 0
+    matchinv = 0
+    global ocorrencias    
+
+    for colunaPivo in range(tamColunas,-1,-2):       
+        matchinv = 0
+        match = 0
+        lin = 0
+        for col in range(tamColunas):
+
+            
+            colTemp = (colunaPivo - col)-1
+
+            if lin < tamLinhas and colTemp >= 0:
+                if(matriz[lin][colTemp].lower() == ' '):
+                    col=col-1
+                    continue
+        
+                #print(matriz[lin][colTemp].lower())
+                #print({lin, colTemp})
+                if matriz[lin][colTemp].lower() == caracterCoringa: 
+                    match=match+1
+                    matchinv = matchinv+1
+                else:
+                    if matriz[lin][colTemp].lower() == palavra[match].lower():
+                        posAtualizar.append([lin,colTemp])
+                        match=match+1
+                    else:
+                        posAtualizar.clear()
+                        match = 0
+                    
+                    if matriz[lin][colTemp].lower() == palavra[tamanhoPalavra-matchinv-1].lower():
+                        posAtualizarInv.append([lin,colTemp])
+                        matchinv = matchinv+1
+                    else:
+                        posAtualizarInv.clear()
+                        matchinv = 0
+
+                if match == tamanhoPalavra:
+                    match = 0
+                    matchinv = 0
+                    ocorrencias = ocorrencias+1
+                    upperMatriz(posAtualizar)
+
+                if matchinv == tamanhoPalavra:
+                    match = 0
+                    matchinv = 0
+                    ocorrencias = ocorrencias+1
+                    upperMatriz(posAtualizarInv)
+            
+                lin = lin+1
+
+
+    #######
+
+
+    for coluna in range(2,tamColunas,2):
+        
+        colunaTemp = coluna
+        matchinv = 0
+        match = 0
+
+        for linha in range(tamLinhas-1,0,-1):
+            
+            if(tamColunas > colunaTemp):
+                if matriz[linha][colunaTemp] == ' ':
+                    colunaTemp = colunaTemp+1
+
+                if matriz[linha][colunaTemp].lower() == caracterCoringa: 
+                    match=match+1
+                    matchinv = matchinv+1
+                else:
+                    if matriz[linha][colunaTemp].lower() == palavra[match].lower():
+                        posAtualizar.append([linha,colunaTemp])
+                        match=match+1
+                    else:
+                        posAtualizar.clear()
+                        match = 0
+                    
+                    if matriz[linha][colunaTemp].lower() == palavra[tamanhoPalavra-matchinv-1].lower():
+                        posAtualizarInv.append([linha,colunaTemp])
+                        matchinv = matchinv+1
+                    else:
+                        posAtualizarInv.clear()
+                        matchinv = 0
+
+                if match == tamanhoPalavra:
+                    match = 0
+                    matchinv = 0
+                    ocorrencias = ocorrencias+1
+                    upperMatriz(posAtualizar)
+
+                if matchinv == tamanhoPalavra:
+                    matchinv = 0
+                    match = 0
+                    ocorrencias = ocorrencias+1
+                    upperMatriz(posAtualizarInv)
+                
+                colunaTemp = colunaTemp+1
+
+
+def upperMatriz(posAtualizar):
+    for p in posAtualizar:
+        matriz_minha[p[0]][p[1]] = matriz_minha[p[0]][p[1]].upper()
+
+def findPalavras(palavras):
+    for iPalavra in range(len(palavras)):
+        global ocorrencias
+        ocorrencias = 0
+        palavra = palavras[iPalavra]
+        horizontal(matriz_minha, palavra)
+        diagonal1(matriz_minha,palavra) 
+        diagonal2(matriz_minha, palavra) 
+        vertical(matriz_minha, palavra)
+        print("Palavra:", "".join(palavra))
+        print("Ocorrencias:", ocorrencias)
+        print("-" * 40)
+        
 
 print("-" * 40)
 print("Lista de Palavras")
 print("-" * 40)
+findPalavras(palavra_letras)
+for linha in matriz_minha:
+        print("".join(linha)) 
 
-print("Palavra:", palavra_busca)
-#print("Ocorrencias:", ocorrencias)
-print("-" * 40)
 
-if horizontal(matriz_minha, linha, coluna, palavra_letras) == True: 
-   for linha in matriz_minha:
-        print(" ".join(linha))
-
-#for linha in matriz_minha:
-        #print(" ".join(linha)) 
