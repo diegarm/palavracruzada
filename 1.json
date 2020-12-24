@@ -1,0 +1,52 @@
+{
+	"_id" : "15300",
+	"id_inspecao" : "7423626a-21be-4f1e-8666-6a950373f86e",
+	"sincronizado" : "0",
+	"data" : "2020-08-19T10:52:39-03:00",
+	"empresa" : "VALEO LIGHTING  SYSTEMS  - SP",
+	"equipamento" : "OLHAL GIRATÓRIO DSR M30 6,3ton",
+	"fabricante" : "CODIPRO ",
+	"serial" : "280315-242",
+	"controle" : "280315-242",
+	"setor" : "FERRAMENTARIA ",
+	"desgaste" : "0",
+	"pinos" : "1",
+	"altatemperatura" : "0",
+	"geral" : "1",
+	"observacao" : "Atende aos requisitos conforme norma EN 1677-1.",
+	"tipo" : "RI",
+	"modelo" : {
+		"_id" : "RI",
+		"normaReferencia" : "NR11",
+		"calibracaoPaquimetro" : "M 06475-19",
+		"calibracaoTrena" : "M 07749-19",
+		"observacaoPadraoAprovado" : "Foi verificado na inspeção visual e dimensional que não apresentam danos que comprometam sua utilização em serviço, apresentando bom funcionamento mecânico no equipamento/ acessório. Recomendações gerais; Equipamentos e acessórios especiais, atentar-se para que sua utilização seja de acordo com seus padrões mecânicos desenvolvidos, verificar sempre a cada aplicação em serviço as condições e limitações de uso dos equipamentos, acessórios e cintas em geral.    ",
+		"observacaoPadraoReprovado" : "Foi verificado na inspeção visual e dimensional que apresentam danos mecânicos/ e ou desacordo com critérios normativos relevantes, comprometendo sua utilização em serviço, verifique abaixo referência técnica para aquisição de substituição:",
+		"observacaoPadraoManutencao" : "Foi verificado na inspeção visual e dimensional, que apresentam danos mecânicos parciais em componentes/ acessórios devendo ser reparado por manutenção, comprometendo sua utilização em serviço até que seja reparado por profissional devidamente qualificado conforme normas vigentes.\r\nReferência técnica para aquisição e reparo de manutenção:    "
+	},
+	"componentes" : [
+		{
+			"especificado" : "83/55",
+			"dimensional" : "84/57",
+			"lote" : "",
+			"identificacao" : "Ø INTERNO DO OLHAL ",
+			"status" : "1"
+		},
+		{
+			"especificado" : "25",
+			"dimensional" : "27",
+			"lote" : "",
+			"identificacao" : "Ø OLHAL",
+			"status" : "1"
+		},
+		{
+			"especificado" : "M30",
+			"dimensional" : "29,80",
+			"lote" : "",
+			"identificacao" : "Ø PARAFUSO DO OLHAL ",
+			"status" : "1"
+		}
+	],
+	"descontinuidades" : [ ],
+	"_class" : "com.flexinsp.models.Inspection"
+}
